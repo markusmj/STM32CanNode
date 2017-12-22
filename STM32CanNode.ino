@@ -5,9 +5,6 @@
 
 const int SPI_CS_PIN = PA8;
 
-byte runumber = 0;
-byte lowdata = 0;
-byte highdata = 0;
 
 MCP_CAN CAN(SPI_CS_PIN);                                    // Set CS pin
 
@@ -24,12 +21,13 @@ void setup()
     pinMode(PB0, INPUT_ANALOG);
     pinMode(PB1, INPUT_ANALOG);
     
-    SPI.setModule(2);
-    SPI.setClockDivider(SPI_CLOCK_DIV2);
+        
+    SPI.setModule(2);   //Define SPI to SPI2
+    SPI.setClockDivider(SPI_CLOCK_DIV2);   //Define Speed of SPI
     Serial.begin(115200);
     
 
-    while (CAN_OK != CAN.begin(CAN_1000KBPS))              // init can bus : baudrate = 1000k
+    while (CAN_OK != CAN.begin(CAN_1000KBPS))              // Init can bus : baudrate = 1000k
     {
         
         Serial.println("CAN BUS Shield init fail");
@@ -41,23 +39,22 @@ void setup()
     
 }
 
-unsigned char stmp[8] = {6, 2, 6, 8, 6, 7, 6, 6};
+
 void loop()
 {   
     int Timing = micros();
     
-    //unsigned char stmp[8] = {lowByte(analogRead(PA0)), highByte(analogRead(PA0)), lowByte(analogRead(PA1)), highByte(analogRead(PA1)), lowByte(analogRead(PA2)), highByte(analogRead(PA2)), lowByte(analogRead(PA3)), highByte(analogRead(PA3))};
+    unsigned char stmp[8] = {lowByte(analogRead(PA0)), highByte(analogRead(PA0)), lowByte(analogRead(PA1)), highByte(analogRead(PA1)), lowByte(analogRead(PA2)), highByte(analogRead(PA2)), lowByte(analogRead(PA3)), highByte(analogRead(PA3))};
     unsigned char stmp2[8] = {lowByte(analogRead(PA4)), highByte(analogRead(PA4)), lowByte(analogRead(PA5)), highByte(analogRead(PA5)), lowByte(analogRead(PA6)), highByte(analogRead(PA6)), lowByte(analogRead(PA7)), highByte(analogRead(PA7))};
-    unsigned char stmp3[8] = {lowByte(analogRead(PB0)), highByte(analogRead(PB0)), lowByte(analogRead(PB1)), highByte(analogRead(PB1)), 6, 6, 6, 6};
+    unsigned char stmp3[8] = {lowByte(analogRead(PB0)), highByte(analogRead(PB0)), lowByte(analogRead(PB1)), highByte(analogRead(PB1)), 0, 0, 0, 0};
 
-    // runumber++;
-    // send data:  id = 0x00, standard frame, data len = 8, stmp: data buf
+    // Send data:  id = 0x00, standard frame, data len = 8, stmp: data buf
     
     CAN.sendMsgBuf(0x29A,0, 8, stmp);
-    CAN.sendMsgBuf(0x666,0, 8, stmp);
-    CAN.sendMsgBuf(0x66,0, 8, stmp);
-    Timing = micros() - Timing;
-    Serial.println(Timing);
-    delay(100);                       // send data once per second
+    CAN.sendMsgBuf(0x666,0, 8, stmp2);
+    CAN.sendMsgBuf(0x66,0, 8, stmp3);
+    //Timing = micros() - Timing;       //Timing checks how long it takes to make analog reads and send data to canbus       
+    //Serial.println(Timing);
+    delay(100);                        // send data once per 0.1 second
 }
 
