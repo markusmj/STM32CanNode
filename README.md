@@ -3,7 +3,7 @@
 This project will make a simple Can Node which will read 10 analog inputs and send their data to Canbus. Idea is also to design simple connecting PCB where common and cheap STM32F103C8T6 Blue Pill Development Board and MCP2515+TJA1050 Can module can be used to create compact package with Analog/digital ports and Can capabilities. 
 
 Some key features of selected hardware:
-- Fast SPI bus 36MHz(SPI1) or 18MHz(SPI2)
+- Fast SPI bus 18MHz
 - 1000kbit/s Can bus
 - Fast 12-bit ADC
 - 10 analog channels
