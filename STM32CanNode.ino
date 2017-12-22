@@ -42,7 +42,7 @@ void setup()
 
 void loop()
 {   
-    int Timing = micros();
+    //int Timing = micros();
     
     unsigned char stmp[8] = {lowByte(analogRead(PA0)), highByte(analogRead(PA0)), lowByte(analogRead(PA1)), highByte(analogRead(PA1)), lowByte(analogRead(PA2)), highByte(analogRead(PA2)), lowByte(analogRead(PA3)), highByte(analogRead(PA3))};
     unsigned char stmp2[8] = {lowByte(analogRead(PA4)), highByte(analogRead(PA4)), lowByte(analogRead(PA5)), highByte(analogRead(PA5)), lowByte(analogRead(PA6)), highByte(analogRead(PA6)), lowByte(analogRead(PA7)), highByte(analogRead(PA7))};
@@ -53,8 +53,10 @@ void loop()
     CAN.sendMsgBuf(0x29A,0, 8, stmp);
     CAN.sendMsgBuf(0x666,0, 8, stmp2);
     CAN.sendMsgBuf(0x66,0, 8, stmp3);
+    
     //Timing = micros() - Timing;       //Timing checks how long it takes to make analog reads and send data to canbus       
-    //Serial.println(Timing);
+    //Serial.println(Timing);           //Uncomment if needed. Also from loops first line.
+    
     delay(100);                        // send data once per 0.1 second
 }
 
