@@ -3,6 +3,18 @@
 #include <SPI.h>
 #include <STM32ADC.h>
 
+/*
+ * Pin Connections to MCP2515
+ * 
+ * PB13 <-> SCK
+ * PB14 <-> MISO
+ * PB15 <-> MOSI
+ * PA8 <-> CS
+ * PA11 <-> INT 
+ * 5V <-> VCC
+ * GND <-> GND
+ */
+
 uint8 pins[] = {PA0,PA1,PA2,PA3,PA4,PA5,PA6,PA7,PB0,PB1}; //Analog input pins
 unsigned char stmp[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 unsigned char stmp2[8] = {0, 0, 0, 0, 0, 0, 0, 0};
